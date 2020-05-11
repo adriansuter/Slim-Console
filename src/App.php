@@ -16,6 +16,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
+use const DIRECTORY_SEPARATOR;
+
 class App extends SymfonyApplication
 {
     protected const NAME = 'Slim Console';
@@ -26,6 +28,11 @@ class App extends SymfonyApplication
      * @var Config
      */
     protected $config;
+
+    /**
+     * @var string
+     */
+    protected $basePath;
 
     /**
      * @param Config $config
@@ -68,5 +75,15 @@ class App extends SymfonyApplication
     public function getConfig(): Config
     {
         return $this->config;
+    }
+
+    /**
+     * @param bool $absolute
+     *
+     * @return string
+     */
+    public function getSourceDir(bool $absolute = true): string
+    {
+        return ($absolute ? $this->basePath . DIRECTORY_SEPARATOR : '') . $this->config->getSourceDir();
     }
 }
